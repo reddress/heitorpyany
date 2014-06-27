@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     # My apps
     'addtwo',
     'fizzbuzz',
+    'howifeel',
 )
 
 MIDDLEWARE_CLASSES = (

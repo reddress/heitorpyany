@@ -18,4 +18,5 @@ urlpatterns = patterns('',
 
                        url(r'^fizzbuzz/', include('fizzbuzz.urls')),
                        url(r'^addtwo/', include('addtwo.urls')),
+                       url(r'^howifeel/', include('howifeel.urls')),
 )
