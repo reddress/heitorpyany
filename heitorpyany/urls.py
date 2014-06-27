@@ -15,4 +15,7 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
                        url(r'^accounts/logout/$', do_logout, name='logout'),
+
+                       url(r'^fizzbuzz/', include('fizzbuzz.urls')),
+                       url(r'^addtwo/', include('addtwo.urls')),
 )

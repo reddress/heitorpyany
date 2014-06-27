@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 
 from django.contrib.auth.decorators import login_required
@@ -10,4 +10,5 @@ def do_logout(request):
 
 @login_required
 def home(request):
-    return HttpResponse('<a href="/accounts/logout/"> log out</a>')
+    # return HttpResponse('<a href="/accounts/logout/"> log out</a>')
+    return render(request, 'heitorpyany/index.html')

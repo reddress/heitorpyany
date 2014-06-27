@@ -1,0 +1,33 @@
+{% load staticfiles %}
+<html>
+  <head>
+	<script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
+  </head>
+  <body>
+	<form id="input_form">
+	  {% csrf_token %}
+	  Enter two numbers: <input name="num_a"> + <input name="num_b">
+	  <br>
+	  <input type="submit">
+	</form>
+	<div id="result">
+	</div>
+	<script>
+  $("#input_form").submit(function (event) {
+	var serializedData = $(this).serialize();
+
+	var request = $.ajax({
+	  url: "{% url 'compute' %}",
+	  type: "POST",
+	  data: serializedData
+	});
+
+	request.done(function (response, textStatus, jqXHR) {
+	  $("#result").html(response);
+	});
+	
+	event.preventDefault();
+  });
+	</script>
+  </body>
+</html>

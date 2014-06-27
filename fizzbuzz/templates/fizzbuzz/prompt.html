@@ -1,0 +1,7 @@
+<form method="POST">
+  {% csrf_token %}
+  Enter a number: <input type="text" name="num">
+  <input type="submit">
+</form>
+
+{{ answer }}

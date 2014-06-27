@@ -1,0 +1,4 @@
+- add a user registration page, verify dynamically if it is valid (a-z and numbers only) and check availability automatically. Leave email, question/answer, password hint as optional fields
+
+- add notice about lack of security
+
