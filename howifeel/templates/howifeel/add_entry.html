@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<html>
+  <head>
+	<title>HowiFeel</title>
+	<link rel="stylesheet" href="{% static "css/add_entry.css" %}"/>
+  </head>
+  
+  <body>
+	{% include "howifeel/nav.html" %}
+	<form name="add_form" method="POST">
+		<table>
+			{{ form.as_table }}
+		</table>
+		{% csrf_token %}
+		<input type="submit">
+	</form>
+
+	{% for field in form %}
+	{{ field.errors }}
+	{% endfor %}
+<!--
+	<form name="add_form" method="POST">
+	  Date: <input type="text" name="date" id="form_date" size="10">
+	  <br><br>
+
+	  Title: <input type="text" name="title" size="60">
+	  
+	  <textarea rows="10" cols="80" name="text"></textarea>
+	  <br><br>
+	  
+	  I felt: <input type="text" name="feelings" size="60"><br><i>happy, upset, hopeful... separate with spaces, join compound-words with hyphens.</i>
+	  <br><br>
+	  
+	  Energy level (+/- 100%) <input type="text" name="energy" size="4">%<br>
+	  Mood level (+/- 100%) <input type="text" name="mood" size="4">%
+	  <br><br>
+
+	  {% csrf_token %}
+	  <input type="submit">
+	</form>
+-->
+
+	<script>
+  function prefill_date() {
+	var now = new Date();
+	var year = now.getYear() + 1900;
+	var month = now.getMonth() + 1;
+	var day = now.getDate();
+
+	document.forms["add_form"]["id_date"].value = day + "/" + month + "/" + year;
+  }
+
+// prefill_date();
+
+	</script>
+  </body>
+</html>

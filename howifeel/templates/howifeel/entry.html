@@ -1,0 +1,15 @@
+<pre>
+  {{ entry.date }}
+  
+  {{ entry.title }}
+
+  {{ entry.text }}
+
+  {% for feeling in entry.feelings.all %}
+  {{ feeling }}
+  {% endfor %}
+
+  {{ entry.energy }}
+  {{ entry.mood }}
+</pre>
+<hr>
