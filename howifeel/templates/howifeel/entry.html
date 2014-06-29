@@ -1,17 +1,20 @@
-<pre>
-  In Diary "{{ entry.diary.name }}"
-  
-  {{ entry.date }}
-  
-  {{ entry.title }}
+<hr>
+{{ entry.date }} - Diary "{{ entry.diary.name }}"
 
+<b>{{ entry.title }}</b>
+<br><br>
+
+<p>
   {{ entry.text }}
+</p>
 
+<i>
   {% for feeling in entry.feelings.all %}
-  {{ feeling }}
+  {{ feeling }}{% if not forloop.last %},{% endif %}
   {% endfor %}
+</i>
 
+<pre>
   Energy: {{ entry.energy }}%
   Mood: {{ entry.mood }}%
 </pre>
-<hr>

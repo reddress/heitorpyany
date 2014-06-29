@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from .models import Diary, Entry
+from .models import Diary, Entry, Feeling
 from .forms import AddEntryForm
 
 @login_required
@@ -32,33 +32,35 @@ def add_entry(request):
         #            print("form added")
         #            return HttpResponseRedirect('../entry_added/')
 
-        
-        print(request.user)
-        print(request.POST['diary'])
-        
-        print(request.POST['text'])
-        print(request.POST['feelings'])
-        print(request.POST['energy'])
-        print(request.POST['mood'])
-
         if request.POST['diary'] == '':
             diary = Diary.objects.get(user=user, name="Untitled")
         else:
             diary = Diary.objects.get(user=user, pk=int(request.POST['diary']))
 
+        date = request.POST['date']
         title = request.POST['title']
         text = request.POST['text']
 
-        # FIXME split by comma, strip whitespace, check if feeling exists,
-        # if not, add to list
-        feelings = request.POST['feelings']
         energy = int(request.POST['energy'])
         mood = int(request.POST['mood'])
 
-        entry = Entry(user=user, diary=diary, title=title, text=text,
-                      # FIXME feelings = ???
+        entry = Entry(user=user, diary=diary, date=date, title=title, text=text,
                       energy=energy, mood=mood)
         entry.save()
+
+        raw_feelings = request.POST['feelings']
+                
+        feeling_words = [f.strip().lower() for f in raw_feelings.split(",")]
+
+        for feeling_word in feeling_words:
+            try:
+                feeling = Feeling.objects.get(user=user, name=feeling_word)
+            except:
+                feeling = Feeling(user=user, name=feeling_word)
+                feeling.save()  # in case feeling does not exist
+            entry.feelings.add(feeling)
+
+        # entry.save()  # looks like it is unnecessary
         return HttpResponseRedirect('../entry_added/')
 
     return render(request, 'howifeel/add_entry.html', { 'form': form })
