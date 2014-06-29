@@ -1,4 +1,6 @@
 <pre>
+  In Diary "{{ entry.diary.name }}"
+  
   {{ entry.date }}
   
   {{ entry.title }}
@@ -9,7 +11,7 @@
   {{ feeling }}
   {% endfor %}
 
-  {{ entry.energy }}
-  {{ entry.mood }}
+  Energy: {{ entry.energy }}%
+  Mood: {{ entry.mood }}%
 </pre>
 <hr>

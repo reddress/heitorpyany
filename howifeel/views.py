@@ -41,9 +41,10 @@ def add_entry(request):
         print(request.POST['energy'])
         print(request.POST['mood'])
 
-        diary = Diary.objects.get(user=user, pk=int(request.POST['diary']))
-        if not diary:
+        if request.POST['diary'] == '':
             diary = Diary.objects.get(user=user, name="Untitled")
+        else:
+            diary = Diary.objects.get(user=user, pk=int(request.POST['diary']))
 
         title = request.POST['title']
         text = request.POST['text']
@@ -68,7 +69,7 @@ def entry_added(request):
 
 @login_required
 def list_entries(request):
-    all_entries = Entry.objects.filter(user=request.user).prefetch_related('feelings')
+    all_entries = Entry.objects.filter(user=request.user).prefetch_related('feelings').order_by('-date')
     
     return render(request, 'howifeel/list_entries.html',
                   { 'entries': all_entries })
