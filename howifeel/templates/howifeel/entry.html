@@ -3,10 +3,11 @@
 <br><br>
 
 <b>{{ entry.title }}</b>
-<br><br>
 
 <p>
+  {% autoescape off %}
   {{ entry.text }}
+  {% endautoescape %}
 </p>
 
 <i>

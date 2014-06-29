@@ -39,7 +39,9 @@ def add_entry(request):
 
         date = request.POST['date']
         title = request.POST['title']
-        text = request.POST['text']
+        text = request.POST['text'].replace("\n", "<br>")
+
+        print(text)
 
         energy = int(request.POST['energy'])
         mood = int(request.POST['mood'])
