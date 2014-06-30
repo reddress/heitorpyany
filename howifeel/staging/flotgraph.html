@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples: Interactivity</title>
+	<link href="../examples.css" rel="stylesheet" type="text/css">
+	<script language="javascript" type="text/javascript" src="../../jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="../../jquery.flot.js"></script>
+	<script type="text/javascript">
+
+$(function() {
+  var links = ["google.com", "yahoo.com"];
+  var tooltips = ["GOOGLE", "YAHOO"];
+  
+  var lines = [{ label: "energy", data: [[0, 80], [0.2, 0]], myLink: links, myTooltip: tooltips },
+			   { label: "mood", data: [[0, 50], [0.2, -20]], myLink: links, myTooltip: tooltips }
+			  ];
+  
+  var plot = $.plot("#placeholder",
+					lines,
+					{
+					  series: {
+						lines: {
+						  show: true
+						},
+						points: {
+						  show: true
+						}
+					  },
+					  grid: {
+						hoverable: true,
+						clickable: true
+					  },
+					  xaxis: {
+						min: 0,
+						max: 2
+					  },
+					  yaxis: {
+						min: -110,
+						max: 110
+					  }
+					});
+  
+  $("<div id='tooltip'></div>").css({
+	position: "absolute",
+	display: "none",
+	border: "1px solid #fdd",
+	padding: "2px",
+	"background-color": "#fee",
+	opacity: 0.80
+  }).appendTo("body");
+  
+  $("#placeholder").bind("plothover", function (event, pos, item) {
+	if (item) {
+	  $("#tooltip").html(item.series.myTooltip[item.dataIndex])
+		.css({top: item.pageY+5, left: item.pageX+5})
+		.fadeIn(200);
+	} else {
+	  $("#tooltip").hide();
+	}
+  });
+  
+  $("#placeholder").bind("plotclick", function (event, pos, item) {
+	if (item) {
+	  window.location.href= "http://" + item.series.myLink[item.dataIndex];
+	}
+  });
+});
+
+</script>
+</head>
+<body>
+  <div class="demo-container">
+	<div id="placeholder" class="demo-placeholder"></div>
+  </div>
+</body>
+</html>

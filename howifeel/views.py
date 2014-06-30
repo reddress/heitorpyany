@@ -2,6 +2,7 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from .models import Diary, Entry, Feeling
 from .forms import AddEntryForm
@@ -15,23 +16,16 @@ def view_diary(request):
     return HttpResponse("View last few entries")
 
 @login_required
-def view_entry(request):
-    return HttpResponse("View entry")
-
-@login_required
-def search(request):
-    return HttpResponse("List of matching entries")
+def view_entry(request, entry_id):
+    entry = Entry.objects.get(user=request.user, pk=entry_id)
+    return render(request, 'howifeel/view_entry.html',
+                  { 'entry': entry })
 
 @login_required
 def add_entry(request):
     user = request.user
     form = AddEntryForm(user=user)
     if request.method == 'POST':
-        #        print("add post")
-        #        if form.is_valid():
-        #            print("form added")
-        #            return HttpResponseRedirect('../entry_added/')
-
         if request.POST['diary'] == '':
             diary = Diary.objects.get(user=user, name="Untitled")
         else:
@@ -62,11 +56,22 @@ def add_entry(request):
                 feeling.save()  # in case feeling does not exist
             entry.feelings.add(feeling)
 
-        # entry.save()  # looks like it is unnecessary
         return HttpResponseRedirect('../entry_added/')
 
     return render(request, 'howifeel/add_entry.html', { 'form': form })
 
+@login_required
+def search(request):
+    if request.method == 'POST':
+        search_parameter = request.POST['search_parameter']
+        entries = (Entry.objects.filter(user=request.user)
+                   .filter(Q(text__icontains=search_parameter)
+                           | Q(title__icontains=search_parameter)))
+        return render(request, 'howifeel/list_entries.html',
+                      { 'entry_category': "search results",
+                        'entries': entries })
+    return render(request, 'howifeel/search_form.html')
+    
 @login_required
 def entry_added(request):
     return render(request, 'howifeel/entry_added.html')
@@ -74,6 +79,25 @@ def entry_added(request):
 @login_required
 def list_entries(request):
     all_entries = Entry.objects.filter(user=request.user).prefetch_related('feelings').order_by('-date')
-    
     return render(request, 'howifeel/list_entries.html',
-                  { 'entries': all_entries })
+                  { 'entry_category': "All", 'entries': all_entries })
+
+@login_required
+def list_feelings(request):
+    all_feelings = Feeling.objects.filter(user=request.user).order_by('name')
+    return render(request, 'howifeel/list_feelings.html',
+                  { 'feelings': all_feelings })
+
+@login_required
+def entries_by_feeling(request, feeling_id):
+    entries = Entry.objects.filter(user=request.user, feelings__pk=feeling_id)
+    feeling_obj = Feeling.objects.get(user=request.user, pk=feeling_id)
+    return render(request, 'howifeel/list_entries.html',
+                  { 'entry_category': 'feeling ' + str(feeling_obj),
+                    'entries': entries })
+
+@login_required
+def graph(request):
+    entries = Entry.objects.filter(user=request.user).order_by('date')
+    return render(request, 'howifeel/graph.html',
+                  { 'entries': entries })

@@ -2,3 +2,8 @@
 
 - add notice about lack of security
 
+HowiFeel
+========
+
+- graph of energy and mood levels track whole day, each node is clickable and displays entry
+

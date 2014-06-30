@@ -1,17 +1,12 @@
-<html>
-  <head>
-	<title>HowiFeel</title>
-  </head>
-  
-  <body>
-	{% include "howifeel/nav.html" %}
+{% extends "howifeel/base.html" %}
 
-	All entries
+{% block subtitle %}list entries{% endblock %}
+
+{% block content %}
+	Entries for: {{ entry_category }}
 	<br><br>
 
 	{% for entry in entries %}
 		{% include "howifeel/entry.html" with entry=entry %}
 	{% endfor %}
-	
-  </body>
-</html>
+{% endblock %}

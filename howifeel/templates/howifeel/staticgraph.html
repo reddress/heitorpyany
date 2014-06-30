@@ -1,0 +1,97 @@
+{% extends "howifeel/base.html" %}
+{% load staticfiles %}
+
+{% block subtitle %}graph{% endblock %}
+
+{% block head_includes %}
+	<link href="{% static "css/flotgraph.css" %}" rel="stylesheet" type="text/css">
+  <script language="javascript" type="text/javascript" src="{% static "js/jquery_for_flot.js" %}"></script>
+<script language="javascript" type="text/javascript" src="{% static "js/jquery.flot.js" %}"></script>
+<script language="javascript" type="text/javascript" src="{% static "js/jquery.flot.time.js" %}"></script>
+	<script type="text/javascript">
+
+$(function() {
+  var links = [];
+  var tooltips = [];
+  var energy_data = [];
+  var mood_data = [];
+  
+  function add_point(entry_id, tooltip, date_ms, energy, mood) {
+    links.push(entry_id);
+    tooltips.push(tooltip);
+    energy_data.push([date_ms, energy]);
+    mood_data.push([date_ms, mood]);
+  }
+
+  add_point("9", "back to", 0, 30, 50);
+  add_point("12", "back to", 86412345, 30, 50);
+  add_point("11", "eleven", 120012345, 10, 90);
+  add_point("10", "ten", 160012345, 80, 30);
+  
+  var lines = [{ label: "energy", data: energy_data, myLink: links, myTooltip: tooltips },
+			   { label: "mood", data: mood_data, myLink: links, myTooltip: tooltips }
+			  ];
+  
+  var plot = $.plot("#placeholder",
+					lines,
+					{
+					  series: {
+						lines: {
+						  show: true
+						},
+						points: {
+						  show: true
+						}
+					  },
+					  grid: {
+						hoverable: true,
+						clickable: true
+					  },
+					  xaxis: {
+						mode: "time", timeformat: "%y-%m-%d",
+						minTickSize: [1, "day"]
+					  },
+					  yaxis: {
+						min: -110,
+						max: 110
+					  }
+					});
+  
+  $("<div id='tooltip'></div>").css({
+	"font-family": "sans-serif",
+	"font-size": "12px",
+	position: "absolute",
+	display: "none",
+	border: "1px solid #fdd",
+	padding: "2px",
+	"background-color": "#fee",
+	opacity: 0.80
+  }).appendTo("body");
+  
+  $("#placeholder").bind("plothover", function (event, pos, item) {
+	if (item) {
+	  $("#tooltip").html(item.series.myTooltip[item.dataIndex])
+		.css({top: item.pageY-20, left: item.pageX+5})
+		.fadeIn(200);
+	} else {
+	  $("#tooltip").hide();
+	}
+  });
+  
+  $("#placeholder").bind("plotclick", function (event, pos, item) {
+	if (item) {
+	  window.location.href = "/howifeel/view_entry/" + item.series.myLink[item.dataIndex];
+	}
+  });
+});
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+  <div class="graph_container">
+	<div id="placeholder" class="graph_placeholder"></div>
+  </div>
+
+{% endblock %}

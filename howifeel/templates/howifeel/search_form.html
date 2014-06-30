@@ -1,0 +1,14 @@
+{% extends "howifeel/base.html" %}
+
+{% block subtitle %}search{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+  Search: <input type="text" name="search_parameter" size="60">
+  <br>
+  {% csrf_token %}
+  <input type="submit">
+</form>
+
+{% endblock %}

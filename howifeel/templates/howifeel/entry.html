@@ -1,8 +1,7 @@
-<hr>
 {{ entry.date }} - Diary "{{ entry.diary.name }}"
 <br><br>
 
-<b>{{ entry.title }}</b>
+<a href="/howifeel/view_entry/{{ entry.id }}/"><b>{{ entry.title }}</b></a>
 
 <p>
   {% autoescape off %}
@@ -20,3 +19,4 @@
   Energy: {{ entry.energy }}%
   Mood: {{ entry.mood }}%
 </pre>
+<hr>

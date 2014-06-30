@@ -1,0 +1,7 @@
+{% extends "howifeel/base.html" %}
+
+{% block subtitle %}view entry{% endblock %}
+
+{% block content %}
+	{% include "howifeel/entry.html" with entry=entry %}
+{% endblock %}

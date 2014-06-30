@@ -1,13 +1,10 @@
+{% extends "howifeel/base.html" %}
 {% load staticfiles %}
 
-<html>
-  <head>
-	<title>HowiFeel</title>
-	<link rel="stylesheet" href="{% static "howifeel/css/add_entry.css" %}"/>
-  </head>
-  
-  <body>
-	{% include "howifeel/nav.html" %}
+{% block subtitle %}add entry {% endblock %}
+{% block head_includes %}<link rel="stylesheet" href="{% static "howifeel/css/add_entry.css" %}"/>{% endblock %}
+
+{% block content %}
 	<form name="add_form" method="POST">
 		<table>
 			{{ form.as_table }}
@@ -54,5 +51,4 @@
 // prefill_date();
 
 	</script>
-  </body>
-</html>
+{% endblock %}

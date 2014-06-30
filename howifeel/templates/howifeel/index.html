@@ -1,11 +1,8 @@
-<html>
-  <head>
-	<title>HowiFeel</title>
-  </head>
-  
-  <body>
-	{% include "howifeel/nav.html" %}
+{% extends "howifeel/base.html" %}
 
+{% block subtitle %}home{% endblock %}
+
+{% block content %}
 	Hello, {{ user.username }}
 	<br>
 	Occasionally back up database by copying it to static
@@ -16,6 +13,4 @@
 
 	<a href="add_entry/">Add entry</a>
 	<br><br>
-	
-  </body>
-</html>
+{% endblock %}

@@ -1,0 +1,12 @@
+<html>
+  <head>
+	<title>HowiFeel {% block subtitle %}{% endblock %}</title>
+	{% block head_includes %}{% endblock %}
+  </head>
+  
+  <body>
+	{% include "howifeel/nav.html" %}
+
+	{% block content %}{% endblock %}	
+  </body>
+</html>

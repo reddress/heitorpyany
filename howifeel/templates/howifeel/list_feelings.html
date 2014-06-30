@@ -1,0 +1,13 @@
+{% extends "howifeel/base.html" %}
+
+{% block subtitle %}feelings{% endblock %}
+
+{% block content %}
+	All feelings
+	<br><br>
+
+	{% for feeling in feelings %}
+	<a href="/howifeel/feeling/{{ feeling.id }}/">{{ feeling }}</a>
+	<br>
+	{% endfor %}
+{% endblock %}

@@ -1,11 +1,7 @@
-<html>
-  <head>
-	<title>HowiFeel</title>
-  </head>
-  
-  <body>
-	{% include "howifeel/nav.html" %}
-	
-	Your entry has been added. Thank you!
-  </body>
-</html>
+{% extends "howifeel/base.html" %}
+
+{% block subtitle %}entry added{% endblock %}
+
+{% block content %}
+Entry added! 
+{% endblock %}
