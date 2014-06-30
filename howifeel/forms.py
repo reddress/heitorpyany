@@ -16,7 +16,7 @@ class AddEntryForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
     feelings = forms.CharField(max_length=200, label="Feelings, comma-separated")
     energy = forms.IntegerField(label="Energy (0 to 100%)")
-    mood = forms.IntegerField(label="Mood (-100 to 100%")
+    mood = forms.IntegerField(label="Mood (-100 to 100%)")
     
     def __init__(self, user, *args, **kwargs):
         super(AddEntryForm, self).__init__(*args, **kwargs)
