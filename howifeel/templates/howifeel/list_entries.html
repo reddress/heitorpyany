@@ -4,9 +4,18 @@
 
 {% block content %}
 	Entries for: {{ entry_category }}
-	<br><br>
+<br><br>
 
+<table>
 	{% for entry in entries %}
-		{% include "howifeel/entry.html" with entry=entry %}
+	<!--		{% include "howifeel/entry.html" with entry=entry %} -->
+	<tr>
+	  <td>
+		<a href="/howifeel/view_entry/{{ entry.id }}/">{{ entry.title }}</a>
+	  </td>
+	  <td>({{ entry.date }})</td>
+	</tr>
 	{% endfor %}
+</table>
+
 {% endblock %}
