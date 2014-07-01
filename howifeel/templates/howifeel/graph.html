@@ -15,21 +15,33 @@ $(function() {
   var tooltips = [];
   var energy_data = [];
   var mood_data = [];
+
+  function date_string_to_millis(s) {
+    var components = s.split(',');
+    var year = parseInt(components[0], 10);
+    var month = parseInt(components[1], 10) - 1;
+    var day = parseInt(components[2], 10);
+    var hour = parseInt(components[3], 10);
+    var minute = parseInt(components[4], 10);
+    var second = parseInt(components[5], 10);
+
+    return Date.UTC(year, month, day, hour, minute, second); 
+  }
   
   function add_point(entry_id, tooltip, date_s, energy, mood) {
-    date_ms = date_s * 1000;
-    links.push(entry_id);
-    tooltips.push(tooltip);
-    energy_data.push([date_ms, energy]);
-    mood_data.push([date_ms, mood]);
+	date_ms = date_s;
+	links.push(entry_id);
+	tooltips.push(tooltip);
+	energy_data.push([date_ms, energy]);
+	mood_data.push([date_ms, mood]);
   }
 
   {% for entry in entries %}
   
-  add_point("{{ entry.id }}", "{{ entry.title }}", {{ entry.date|date:'U' }}, {{ entry.energy }}, {{ entry.mood }});
+  add_point("{{ entry.id }}", "{{ entry.title }}", date_string_to_millis("{{ entry.date|date:'Y,n,j,G,i,s' }}"), {{ entry.energy }}, {{ entry.mood }});
 
   {% endfor %}
-  
+
   var lines = [{ label: "energy", data: energy_data, myLink: links, myTooltip: tooltips },
 			   { label: "mood", data: mood_data, myLink: links, myTooltip: tooltips }
 			  ];
@@ -57,7 +69,7 @@ $(function() {
 						min: -110,
 						max: 110
 					  },
-                      legend: { show: false }
+					  legend: { show: false }
 					});
   
   $("<div id='tooltip'></div>").css({
