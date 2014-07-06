@@ -1,4 +1,4 @@
-{{ entry.date }} - Diary "{{ entry.diary.name }}"
+{{ entry.date|date:"D d/m/y H:i" }} - Diary "{{ entry.diary.name }}"
 <br><br>
 
 <a href="/howifeel/view_entry/{{ entry.id }}/"><b>{{ entry.title }}</b></a>
