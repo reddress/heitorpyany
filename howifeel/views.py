@@ -66,7 +66,8 @@ def search(request):
         search_parameter = request.POST['search_parameter']
         entries = (Entry.objects.filter(user=request.user)
                    .filter(Q(text__icontains=search_parameter)
-                           | Q(title__icontains=search_parameter)))
+                           | Q(title__icontains=search_parameter))
+                   .order_by('-date'))
         return render(request, 'howifeel/list_entries.html',
                       { 'entry_category': "search results",
                         'entries': entries })
