@@ -1,8 +1,11 @@
+from datetime import timedelta
+
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.utils import timezone
 
 from .models import Diary, Entry, Feeling
 from .forms import AddEntryForm
@@ -99,6 +102,9 @@ def entries_by_feeling(request, feeling_id):
 
 @login_required
 def graph(request):
-    entries = Entry.objects.filter(user=request.user).order_by('date')
+    today = timezone.now()
+    entries = (Entry.objects.filter(user=request.user,
+                                    date__gte=today-timedelta(days=7)).
+               order_by('-date'))
     return render(request, 'howifeel/graph.html',
                   { 'entries': entries })
