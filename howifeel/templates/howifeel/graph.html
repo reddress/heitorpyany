@@ -8,6 +8,7 @@
   <script language="javascript" type="text/javascript" src="{% static "js/jquery_for_flot.js" %}"></script>
 <script language="javascript" type="text/javascript" src="{% static "js/jquery.flot.js" %}"></script>
 <script language="javascript" type="text/javascript" src="{% static "js/jquery.flot.time.js" %}"></script>
+<script language="javascript" type="text/javascript" src="{% static "js/jquery.flot.navigate.js" %}"></script>
 	<script type="text/javascript">
 
 $(function() {
@@ -17,15 +18,15 @@ $(function() {
   var mood_data = [];
 
   function date_string_to_millis(s) {
-    var components = s.split(',');
-    var year = parseInt(components[0], 10);
-    var month = parseInt(components[1], 10) - 1;
-    var day = parseInt(components[2], 10);
-    var hour = parseInt(components[3], 10);
-    var minute = parseInt(components[4], 10);
-    var second = parseInt(components[5], 10);
+	var components = s.split(',');
+	var year = parseInt(components[0], 10);
+	var month = parseInt(components[1], 10) - 1;
+	var day = parseInt(components[2], 10);
+	var hour = parseInt(components[3], 10);
+	var minute = parseInt(components[4], 10);
+	var second = parseInt(components[5], 10);
 
-    return Date.UTC(year, month, day, hour, minute, second); 
+	return Date.UTC(year, month, day, hour, minute, second); 
   }
   
   function add_point(entry_id, tooltip, date_s, energy, mood) {
@@ -63,13 +64,22 @@ $(function() {
 					  },
 					  xaxis: {
 						mode: "time", timeformat: "%a %d/%m",
-						minTickSize: [1, "day"]
+						minTickSize: [1, "day"],
+                        min: date_string_to_millis("{{ last_week|date:'Y,n,j,G,i,s' }}"),
+                        max: date_string_to_millis("{{ today|date:'Y,n,j,G,i,s' }}")
 					  },
 					  yaxis: {
 						min: -110,
 						max: 110
 					  },
-					  legend: { show: false }
+                      legend: { show: false },
+                      pan: {
+                        interactive: true
+                      },
+                      zoom: {
+                        interactive: true
+                      }
+		              
 					});
   
   $("<div id='tooltip'></div>").css({

@@ -103,8 +103,11 @@ def entries_by_feeling(request, feeling_id):
 @login_required
 def graph(request):
     today = timezone.now()
-    entries = (Entry.objects.filter(user=request.user,
-                                    date__gte=today-timedelta(days=7)).
-               order_by('-date'))
+    last_week = today - timedelta(days=7)
+    entries = (Entry.objects.filter(user=request.user)
+               # date__gte=today-timedelta(days=7)).
+               .order_by('-date'))
     return render(request, 'howifeel/graph.html',
-                  { 'entries': entries })
+                  { 'entries': entries,
+                    'today': today,
+                    'last_week': last_week })
