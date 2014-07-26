@@ -64,6 +64,7 @@ $(function() {
 					  },
 					  xaxis: {
 						mode: "time", timeformat: "%a %d/%m",
+						tickSize: [1, "day"],
 						minTickSize: [1, "day"],
                         min: date_string_to_millis("{{ last_week|date:'Y,n,j,G,i,s' }}"),
                         max: date_string_to_millis("{{ today|date:'Y,n,j,G,i,s' }}")
