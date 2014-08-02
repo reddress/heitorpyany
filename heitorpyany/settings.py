@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'addtwo',
     'fizzbuzz',
     'howifeel',
+    'codenotes',
 )
 
 MIDDLEWARE_CLASSES = (
