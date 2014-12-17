@@ -3,7 +3,7 @@
 {% block subtitle %}list entries{% endblock %}
 
 {% block content %}
-	Entries for: {{ entry_category }}
+Entries for: {{ entry_category }}
 <br><br>
 
 <table>
@@ -12,19 +12,24 @@
 	<td>energy</td>
 	<td>mood</td>
 	<td style="padding-left: 10px;">title</td>
+	<td style="padding-left: 10px;">feelings/tags</td>
   </tr>
   
-	{% for entry in entries %}
-	<!--		{% include "howifeel/entry.html" with entry=entry %} -->
-	<tr>
-	  <td align="right">{{ entry.date|date:"D, d/m/y H:i:s" }}</td>
-	  <td align="right">{{ entry.energy }}</td>
-	  <td align="right">{{ entry.mood }}</td>
-	  <td style="padding-left: 10px;">
-		<a href="/howifeel/view_entry/{{ entry.id }}/">{{ entry.title }}</a>
-	  </td>
-	</tr>
-	{% endfor %}
+  {% for entry in entries %}
+  <!--		{% include "howifeel/entry.html" with entry=entry %} -->
+  <tr>
+	<td align="right">{{ entry.date|date:"D, d/m/y H:i:s" }}</td>
+	<td align="right">{{ entry.energy }}</td>
+	<td align="right">{{ entry.mood }}</td>
+	<td style="padding-left: 10px;">
+	  <a href="/howifeel/view_entry/{{ entry.id }}/">{{ entry.title }}</a>
+	</td>
+	<td>{% for feeling in entry.feelings.all %}
+	  {{ feeling }}{% if not forloop.last %},{% endif %}
+	  {% endfor %}
+	</td>
+  </tr>
+  {% endfor %}
 </table>
 
 {% endblock %}
