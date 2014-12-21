@@ -4,7 +4,13 @@
 
 {% block content %}
 	Hello, {{ user.username }}
-	<br>
+<br>
+	<a href="list_entries/">List entries</a>
+	<br><br>
+
+	<a href="add_entry/">Add entry</a>
+	<br><br>
+	
 	Occasionally back up database by copying it to static
 	<pre>
 	  How to backup:
@@ -14,11 +20,6 @@
 	  3. cd ~/heitorpyany/
 	  4. cp db.sqlite3 static/howifeel/css/dbDATE_YEAR_MONTH_DAY.sqlite3
 	  5. navigate to http://heitor.pythonanywhere.com/static/howifeel/css/dbDATE.sqlite3
-	<br><br>
+	</pre>
 	
-	<a href="list_entries/">List entries</a>
-	<br><br>
-
-	<a href="add_entry/">Add entry</a>
-	<br><br>
 {% endblock %}
