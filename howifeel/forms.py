@@ -13,7 +13,7 @@ class AddEntryForm(forms.Form):
     diary = forms.ModelChoiceField(queryset=None)
     date = forms.DateTimeField(initial=timezone.now)
     title = forms.CharField(max_length=200)
-    text = forms.CharField(widget=forms.Textarea)
+    text = forms.CharField(widget=forms.Textarea(attrs={'rows': 20, 'cols': 40}))
     feelings = forms.CharField(max_length=200, label="Feelings/Tags, comma-sep.")
     energy = forms.IntegerField(label="Energy (0 to 100%)")
     mood = forms.IntegerField(label="Mood (-100 to 100%)")
